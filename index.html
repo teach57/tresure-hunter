@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treasure Hunter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #1e3a8a;
+            color: white;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #3b82f6;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .clue {
+            display: none;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #fbbf24;
+        }
+        .question-container {
+            margin-top: 20px;
+        }
+        input {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            width: 80%;
+            margin: 10px 0;
+        }
+        button {
+            background: #f59e0b;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #d97706;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Treasure Hunter</h1>
+        <div id="game-container">
+            <p id="question"></p>
+            <input type="text" id="answer" placeholder="Enter your answer">
+            <button onclick="checkAnswer()">Submit</button>
+            <p id="feedback"></p>
+            <p class="clue" id="clue1">Clue 1: 1st word</p>
+            <p class="clue" id="clue2">Clue 2: 2nd</p>
+            <p class="clue" id="clue3">Clue 3: 3rd</p>
+        </div>
+    </div>
+    
+    <script>
+        const questions = [
+            { question: "What is the color of the sun?", answer: "yellow", clueId: "clue1" },
+            { question: "What do pirates use to find treasure?", answer: "map", clueId: "clue2" },
+            { question: "Where is treasure usually stored?", answer: "chest", clueId: "clue3" }
+        ];
+        
+        let currentQuestionIndex = 0;
+        const questionElement = document.getElementById("question");
+        const answerElement = document.getElementById("answer");
+        const feedbackElement = document.getElementById("feedback");
+        
+        function loadQuestion() {
+            if (currentQuestionIndex < questions.length) {
+                questionElement.textContent = questions[currentQuestionIndex].question;
+            } else {
+                questionElement.textContent = "You found all clues! The treasure is yours!";
+                answerElement.style.display = "none";
+            }
+        }
+        
+        function checkAnswer() {
+            const userAnswer = answerElement.value.trim().toLowerCase();
+            const correctAnswer = questions[currentQuestionIndex].answer;
+            
+            if (userAnswer === correctAnswer) {
+                document.getElementById(questions[currentQuestionIndex].clueId).style.display = "block";
+                feedbackElement.textContent = "Correct! Here's your clue.";
+                currentQuestionIndex++;
+                answerElement.value = "";
+                setTimeout(loadQuestion, 1000);
+            } else {
+                feedbackElement.textContent = "Wrong answer. Try again!";
+            }
+        }
+        
+        loadQuestion();
+    </script>
+</body>
+</html>
